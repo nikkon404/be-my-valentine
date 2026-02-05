@@ -1,2 +1,21 @@
 node_modules/
 data.csv
+
+.env
+.env.*
+!.env.example
+
+# Firebase service account keys (download from Console → Project settings → Service accounts)
+*serviceAccount*.json
+*firebase-adminsdk*.json
+*-credentials*.json
+
+# Firebase local state and debug
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+.firebaserc.local
+
+# Firebase Functions config (can hold secrets)
+.runtimeconfig.json
+functions/.runtimeconfig.json

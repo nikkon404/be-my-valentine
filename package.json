@@ -2,13 +2,9 @@
   "name": "valentines",
   "version": "1.0.0",
   "description": "Valentine link generator with status tracking",
-  "main": "server.js",
+  "private": true,
   "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "express-rate-limit": "^7.1.5",
-    "helmet": "^7.1.0"
+    "serve": "firebase serve",
+    "deploy": "firebase deploy"
   }
 }

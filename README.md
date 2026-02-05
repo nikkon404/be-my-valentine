@@ -19,21 +19,24 @@ A small Valentine link generator: create a shareable link, send it, and see if t
 ## Run locally
 
 ```bash
-npm install
-npm start
+npm run serve
 ```
 
-Open http://localhost:3000
+Or with Hosting + Functions emulators:
 
-## Deploy (Hugging Face Spaces)
+```bash
+firebase emulators:start --only hosting,functions
+```
 
-This app is deployed on Hugging Face Spaces:
+Open the URL shown (e.g. http://localhost:5000).
 
-**Live demo:** [https://www.placeholder.com]
+## Deploy (Firebase)
 
-1. Create a new **Space** → **Docker**.
-2. Push this repo and set the Space **Port** to **7860**.
-3. The app uses `process.env.PORT` automatically.
+```bash
+npm run deploy
+```
+
+Or `firebase deploy`. Requires Firebase CLI and a project linked via `.firebaserc`.
 
 ## Credits
 
