@@ -3,6 +3,7 @@
  */
 
 import { sanitizeNameInput, NAME_VALIDATION_MSG } from './utils.js';
+import { createLink } from './firestore-client.js';
 
 export function initGenerator() {
   document.body.classList.add('generator-mode');
@@ -26,17 +27,7 @@ export function initGenerator() {
       nameInput.value = name;
       getLinkBtn.disabled = true;
       getLinkBtn.textContent = '…';
-      fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name }),
-      })
-        .then((r) =>
-          r.json().then((data) => {
-            if (!r.ok) throw { status: r.status, data };
-            return data;
-          })
-        )
+      createLink(name)
         .then((data) => {
           if (codeEl) codeEl.textContent = data.code || '';
           urlInput.value = data.url;
@@ -47,8 +38,7 @@ export function initGenerator() {
         .catch((err) => {
           getLinkBtn.textContent = 'Get link';
           getLinkBtn.disabled = false;
-          const msg =
-            err?.data?.error || 'Could not generate link. Is the server running?';
+          const msg = err?.message || 'Could not generate link. Check Firebase config.';
           alert(msg);
         });
     });

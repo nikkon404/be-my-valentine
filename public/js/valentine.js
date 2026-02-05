@@ -2,7 +2,8 @@
  * Valentine page: check if already responded, then redirect to status or show Yes/No flow.
  */
 
-import { getValentineCode, api } from './utils.js';
+import { getValentineCode } from './utils.js';
+import { getLink } from './firestore-client.js';
 import { initValentineInteraction } from './valentine-cursor.js';
 
 const RESPONDED_YES = ['yes', 'responded'];
@@ -19,8 +20,13 @@ export function initValentine() {
   const noScreen = document.getElementById('no-screen');
   const nameEl = document.getElementById('valentine-name');
 
-  api('/api/lookup?code=' + encodeURIComponent(code))
+  getLink(code)
     .then((data) => {
+      if (!data) {
+        if (nameEl) nameEl.textContent = '?';
+        initValentineInteraction({ code, mainScreen, successScreen, noScreen });
+        return;
+      }
       const status = (data.status || '').toLowerCase();
       if (RESPONDED_YES.includes(status) || status === 'no') {
         window.location.replace('status.html?code=' + encodeURIComponent(code));

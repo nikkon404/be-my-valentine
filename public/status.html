@@ -52,24 +52,31 @@
     <img src="https://nukochannel.neocities.org/NukoChannelButton.gif" alt="NUko" />
   </a>
 
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
   <script>
     (function () {
       var params = new URLSearchParams(window.location.search);
-      var code = (params.get('code') || '').trim();
+      var code = (params.get('code') || '').trim().toLowerCase();
       var el = document.getElementById('status-message');
       var heartEl = document.getElementById('status-heart');
       var sadEl = document.getElementById('status-sad');
-      if (!code) {
+      if (!code || code.length !== 7) {
         el.textContent = 'Invalid code.';
         return;
       }
-      fetch('/api/status?code=' + encodeURIComponent(code))
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          if (!data.found) {
+      if (typeof firebase === 'undefined' || !firebase.firestore) {
+        el.textContent = 'Could not load Firebase.';
+        return;
+      }
+      firebase.firestore().collection('links').doc(code).get()
+        .then(function (snap) {
+          if (!snap.exists) {
             el.textContent = 'Invalid code.';
             return;
           }
+          var data = snap.data();
           var name = (data.name || '').trim();
           var status = (data.status || '').toLowerCase();
           if (heartEl) heartEl.classList.remove('visible');
@@ -81,7 +88,7 @@
             if (sadEl) sadEl.classList.add('visible');
             el.textContent = name ? name + ' responded no.' : 'They said no.';
           } else {
-            el.textContent = 'They haven\'t responded.';
+            .tent = 'They haven\'t responded.';
           }
         })
         .catch(function () {

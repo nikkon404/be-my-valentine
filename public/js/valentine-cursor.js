@@ -2,7 +2,7 @@
  * Valentine page: custom cursor, push-cat animation, pointer lock, Yes/No response.
  */
 
-import { api } from './utils.js';
+import { updateResponse } from './firestore-client.js';
 
 const CONFIG = {
   WIND_ZONE_PADDING: 50,
@@ -186,10 +186,7 @@ export function initValentineInteraction(elements) {
       noScreen.classList.add('visible');
       noScreen.setAttribute('aria-hidden', 'false');
     }
-    api('/api/respond', {
-      method: 'POST',
-      body: JSON.stringify({ code, response }),
-    }).catch(() => { });
+    updateResponse(code, response).catch(() => { });
   }
 
   btnYes.addEventListener('click', () => showResponse('yes'));
