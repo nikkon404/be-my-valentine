@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body.status-page {
+      padding: 2rem;
+      box-sizing: border-box;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .status-heart,
+    .status-sad {
+      display: none;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.25rem;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+
+    .status-heart.visible,
+    .status-sad.visible {
+      display: block;
+    }
+
+    .status-page .status-message {
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      text-align: center;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body class="screen status-page">
+  <img id="status-heart" class="status-heart" src="gifs/heart.gif" alt="" />
+  <img id="status-sad" class="status-sad" src="gifs/sad.gif" alt="" />
+  <p id="status-message" class="status-message">Loading…</p>
+
+  <a href="https://nukochannel.neocities.org" target="_blank" rel="noopener" class="hotlink-nuko" title="NUko">
+    <span class="hotlink-nuko-label">cats from</span>
+    <img src="https://nukochannel.neocities.org/NukoChannelButton.gif" alt="NUko" />
+  </a>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var code = (params.get('code') || '').trim();
+      var el = document.getElementById('status-message');
+      var heartEl = document.getElementById('status-heart');
+      var sadEl = document.getElementById('status-sad');
+      if (!code) {
+        el.textContent = 'Invalid code.';
+        return;
+      }
+      fetch('/api/status?code=' + encodeURIComponent(code))
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data.found) {
+            el.textContent = 'Invalid code.';
+            return;
+          }
+          var name = (data.name || '').trim();
+          var status = (data.status || '').toLowerCase();
+          if (heartEl) heartEl.classList.remove('visible');
+          if (sadEl) sadEl.classList.remove('visible');
+          if (status === 'yes' || status === 'responded') {
+            if (heartEl) heartEl.classList.add('visible');
+            el.textContent = name ? name + ' responded yes.' : 'They said yes.';
+          } else if (status === 'no') {
+            if (sadEl) sadEl.classList.add('visible');
+            el.textContent = name ? name + ' responded no.' : 'They said no.';
+          } else {
+            el.textContent = 'They haven\'t responded.';
+          }
+        })
+        .catch(function () {
+          el.textContent = 'Could not load status.';
+        });
+    })();
+  </script>
+</body>
+
+</html>

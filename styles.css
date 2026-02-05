@@ -1,0 +1,475 @@
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: linear-gradient(160deg, #1a0a14 0%, #2d1b2e 50%, #1a0a14 100%);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Nuko hotlink: bottom right on every page */
+.hotlink-nuko {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  opacity: 0.9;
+  cursor: pointer !important;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hotlink-nuko:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+.hotlink-nuko-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+  text-transform: lowercase;
+}
+
+.hotlink-nuko img {
+  display: block;
+  width: auto;
+  height: 22px;
+}
+
+/* Hide system cursor only on the valentine Yes/No page (not when already responded) */
+body.valentine-mode:not(.already-responded),
+body.valentine-mode:not(.already-responded) *,
+body.valentine-mode:not(.already-responded) *::before,
+body.valentine-mode:not(.already-responded) *::after {
+  cursor: none !important;
+}
+
+/* Generator page: visible when no ?to= in URL */
+body.generator-mode .valentine,
+body.generator-mode .success,
+body.generator-mode .click-hint,
+body.generator-mode .push-cat,
+body.generator-mode .cursor {
+  display: none !important;
+}
+
+body.valentine-mode.already-responded .cursor,
+body.valentine-mode.already-responded .push-cat {
+  display: none !important;
+}
+
+body.valentine-mode .generator {
+  display: none !important;
+}
+
+.click-hint {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  z-index: 100;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.click-hint.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Cat that pushes cursor to Yes (run2.gif), then celebration (heart.gif) */
+.push-cat {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 64px;
+  margin-left: -32px;
+  margin-top: -32px;
+  pointer-events: none;
+  z-index: 9995;
+  opacity: 0;
+  transform: translate(0, 0) scale(0.6);
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
+
+.push-cat.visible {
+  opacity: 1;
+}
+
+.push-cat img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.06s ease-out;
+  will-change: transform;
+  transform-origin: 16px 16px;
+}
+
+.cursor-wind {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 140px;
+  height: 80px;
+  margin-left: -70px;
+  margin-top: -40px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.cursor.wind-active .cursor-wind {
+  opacity: 1;
+}
+
+.cursor-wind svg,
+.cursor-wind .cursor-wind-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.cursor-wind .wind-line {
+  animation: wind-flow 0.6s ease-in-out infinite;
+}
+
+.cursor-wind .wind-line:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.cursor-wind .wind-line:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.cursor-wind .wind-line:nth-child(4) {
+  animation-delay: 0.05s;
+}
+
+.cursor-wind .wind-line:nth-child(5) {
+  animation-delay: 0.15s;
+}
+
+.cursor-wind .wind-line:nth-child(6) {
+  animation-delay: 0.25s;
+}
+
+@keyframes wind-flow {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.cursor-arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  margin-top: -12px;
+  pointer-events: none;
+  transform: rotate(var(--cursor-tilt, 0)deg);
+  transition: transform 0.08s ease-out;
+}
+
+.cursor-arrow::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M5 3l14 9-6 2-3 7z'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Screens */
+.screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.screen.success {
+  display: none;
+  text-align: center;
+}
+
+.screen.success.visible {
+  display: flex;
+}
+
+#main-screen.hidden {
+  display: none;
+}
+
+/* Question */
+.question {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 600;
+  margin: 0 0 2.5rem;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Buttons – distance between Yes and No */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12rem;
+}
+
+.btn {
+  padding: 0.85rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 4px;
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, #e91e63, #c2185b);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(233, 30, 99, 0.4);
+}
+
+.btn-yes:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(233, 30, 99, 0.5);
+}
+
+.btn-no {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.btn-no:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* Generator page (homepage) styles */
+.generator-title {
+  font-size: clamp(1.5rem, 4vw, 1.85rem);
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.home-section {
+  margin-bottom: 2.5rem;
+  padding: 1.25rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 24rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-section:last-child {
+  margin-bottom: 0;
+}
+
+.home-section-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+  opacity: 0.95;
+}
+
+.generator-prompt {
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+  opacity: 0.85;
+}
+
+.generator-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.generator-form input {
+  padding: 0.6rem 0.9rem;
+  font-size: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  width: 14rem;
+  max-width: 100%;
+}
+
+.generator-form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.generator-form input:focus {
+  outline: none;
+  border-color: rgba(233, 30, 99, 0.6);
+}
+
+.generator-result {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.generator-code-label {
+  font-size: 0.9rem;
+  margin: 0 0 0.35rem;
+  opacity: 0.9;
+}
+
+.generator-code {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  margin: 0 0 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  text-transform: lowercase;
+}
+
+.generator-result.hidden,
+.status-result.hidden {
+  display: none !important;
+}
+
+.status-result {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.status-result.success {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.5);
+}
+
+.status-result.pending {
+  background: rgba(255, 193, 7, 0.15);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+}
+
+.status-result.error {
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid rgba(244, 67, 54, 0.4);
+}
+
+.generator-url-label {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem;
+  opacity: 0.9;
+}
+
+.generator-url-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.generator-url-row input {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  width: 18rem;
+  max-width: calc(100vw - 8rem);
+}
+
+.btn-link {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-link:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Success screen */
+.success-heart-gif {
+  display: block;
+  width: clamp(120px, 28vw, 200px);
+  height: auto;
+  margin: 0 auto 1.5rem;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.success h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin: 0 0 0.5rem;
+}
+
+.success p {
+  font-size: 1.25rem;
+  margin: 0;
+  opacity: 0.9;
+}
