@@ -4,9 +4,9 @@
  */
 /* eslint-disable require-jsdoc */
 
-const { onRequest } = require("firebase-functions/v2/https");
-const { initializeApp } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
+const {onRequest} = require("firebase-functions/v2/https");
+const {initializeApp} = require("firebase-admin/app");
+const {getFirestore} = require("firebase-admin/firestore");
 
 initializeApp();
 const db = getFirestore();
@@ -40,10 +40,10 @@ function isValidCode(code) {
 
 function sanitizeName(name) {
   return (name || "")
-    .replace(/[^a-zA-Z0-9\s]/g, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, MAX_NAME_LENGTH);
+      .replace(/[^a-zA-Z0-9\s]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, MAX_NAME_LENGTH);
 }
 
 function normalizeCode(code) {
@@ -93,7 +93,7 @@ exports.api = onRequest(async (req, res) => {
         attempts++;
       }
       if (exists) {
-        json(res, 500, { error: "Could not generate unique code." });
+        json(res, 500, {error: "Could not generate unique code."});
         return;
       }
       await linksRef.doc(code).set({
@@ -107,19 +107,19 @@ exports.api = onRequest(async (req, res) => {
       const proto = req.headers["x-forwarded-proto"] || "https";
       const base = host ? `${proto}://${host}` : "";
       const url = base ? `${base}/?code=${code}` : `/?code=${code}`;
-      json(res, 200, { code, url });
+      json(res, 200, {code, url});
       return;
     }
 
     if (path === "/api/status" && req.method === "GET") {
       const code = normalizeCode((req.query && req.query.code));
       if (!isValidCode(code)) {
-        json(res, 400, { error: "Invalid code format" });
+        json(res, 400, {error: "Invalid code format"});
         return;
       }
       const snap = await linksRef.doc(code).get();
       if (!snap.exists) {
-        json(res, 200, { found: false, message: "Invalid code" });
+        json(res, 200, {found: false, message: "Invalid code"});
         return;
       }
       const d = snap.data();
@@ -142,16 +142,16 @@ exports.api = onRequest(async (req, res) => {
     if (path === "/api/lookup" && req.method === "GET") {
       const code = normalizeCode((req.query && req.query.code));
       if (!isValidCode(code)) {
-        json(res, 400, { error: "Invalid code format" });
+        json(res, 400, {error: "Invalid code format"});
         return;
       }
       const snap = await linksRef.doc(code).get();
       if (!snap.exists) {
-        json(res, 404, { error: "Invalid code" });
+        json(res, 404, {error: "Invalid code"});
         return;
       }
       const d = snap.data();
-      json(res, 200, { name: d.name, status: d.status });
+      json(res, 200, {name: d.name, status: d.status});
       return;
     }
 
@@ -160,27 +160,27 @@ exports.api = onRequest(async (req, res) => {
       const raw = (req.body && req.body.response) || "";
       const response = raw.trim().toLowerCase();
       if (!isValidCode(code)) {
-        json(res, 400, { error: "Invalid code format" });
+        json(res, 400, {error: "Invalid code format"});
         return;
       }
       if (response !== STATUS.YES && response !== STATUS.NO) {
-        json(res, 400, { error: "Response must be yes or no" });
+        json(res, 400, {error: "Response must be yes or no"});
         return;
       }
       const ref = linksRef.doc(code);
       const snap = await ref.get();
       if (!snap.exists) {
-        json(res, 404, { error: "Invalid code" });
+        json(res, 404, {error: "Invalid code"});
         return;
       }
-      await ref.update({ status: response });
-      json(res, 200, { ok: true });
+      await ref.update({status: response});
+      json(res, 200, {ok: true});
       return;
     }
 
-    json(res, 404, { error: "Not found" });
+    json(res, 404, {error: "Not found"});
   } catch (err) {
     console.error(err);
-    json(res, 500, { error: "Server error" });
+    json(res, 500, {error: "Server error"});
   }
 });
