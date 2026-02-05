@@ -8,12 +8,20 @@ body {
   overflow-x: hidden;
 }
 
-/* Nuko hotlink: bottom right on every page */
-.hotlink-nuko {
+/* Bottom right: two items — 1) Nuko credit, 2) Nikkon watermark */
+.credits-bottom-right {
   position: fixed;
   right: 0.75rem;
   bottom: 0.75rem;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+/* Item 1: Nuko credit */
+.hotlink-nuko {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -39,6 +47,51 @@ body {
   display: block;
   width: auto;
   height: 22px;
+}
+
+/* Item 2: made by Nikkon + GitHub + Linktree */
+.watermark-nikkon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  opacity: 0.85;
+}
+
+.watermark-nikkon-text {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.watermark-nikkon-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.watermark-nikkon-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.watermark-nikkon-links a:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.watermark-nikkon-links svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 /* Hide system cursor only on the valentine Yes/No page (not when already responded) */
