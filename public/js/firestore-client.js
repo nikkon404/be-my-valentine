@@ -11,6 +11,11 @@ function getDb() {
   if (typeof firebase === "undefined" || !firebase.firestore) {
     throw new Error("Firebase not loaded");
   }
+  if (!firebase.apps || firebase.apps.length === 0) {
+    throw new Error(
+      "Firebase App not initialized. Ensure firebase-config.js is loaded after the Firebase SDK and calls firebase.initializeApp()."
+    );
+  }
   return firebase.firestore();
 }
 
