@@ -1,14 +1,4 @@
----
-title: "Be My Valentine"
-emoji: "💕"
-colorFrom: pink
-colorTo: red
-sdk: docker
-app_port: 7860
-pinned: false
----
-
-# Valentines
+# Be My Valentines
 
 A small Valentine link generator: create a shareable link, send it, and see if they said yes or no.
 
@@ -39,9 +29,7 @@ Open http://localhost:3000
 
 This app is deployed on Hugging Face Spaces:
 
-**Live demo:** [https://huggingface.co/spaces/YOUR_USERNAME/valentines](https://huggingface.co/spaces/YOUR_USERNAME/valentines) *(replace `YOUR_USERNAME` with your Space)*
-
-To deploy your own:
+**Live demo:** [https://www.placeholder.com]
 
 1. Create a new **Space** → **Docker**.
 2. Push this repo and set the Space **Port** to **7860**.
