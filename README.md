@@ -1,18 +1,19 @@
 # Be My Valentines
 
-A small Valentine link generator: create a shareable link, send it, and see if they said yes or no.
+Generate a valentine link, send it—they land on a Yes / No page. If they hover near “No,” a cat pushes the cursor toward “Yes.”
 
 **Demo:** [https://be-my-valentine-f6434.web.app/](https://be-my-valentine-f6434.web.app/)
 
 ## Screenshots
 
+**Valentine page** — Yes / No (with the cat)
+
+![Valentine page](screenshots/demo.gif)
+
 **Homepage** — generate a link, check status
 
 ![Homepage](screenshots/1.png)
 
-**Valentine page** — Yes / No (with the cat)
-
-![Valentine page](screenshots/2.png)
 
 **Status page** — see if they responded
 
