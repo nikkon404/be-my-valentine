@@ -7,7 +7,9 @@ import { initGenerator } from './generator.js';
 import { initValentine } from './valentine.js';
 
 function ensureFirebaseApp() {
-  if (typeof firebase === "undefined" || typeof firebaseConfig === "undefined") return;
+  const firebase = window.firebase;
+  const firebaseConfig = window.firebaseConfig;
+  if (!firebase || !firebaseConfig) return;
   if (!firebase.apps || firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
