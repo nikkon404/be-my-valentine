@@ -19,3 +19,6 @@ firebase-debug.*.log
 # Firebase Functions config (can hold secrets)
 .runtimeconfig.json
 functions/.runtimeconfig.json
+
+# Generated from .env by npm run build:config (do not commit real keys)
+public/js/firebase-config.js

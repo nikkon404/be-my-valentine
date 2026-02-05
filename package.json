@@ -5,6 +5,11 @@
   "private": true,
   "scripts": {
     "serve": "firebase serve",
-    "deploy": "firebase deploy"
+    "deploy": "npm run build:config && firebase deploy",
+    "build:config": "node scripts/generate-firebase-config.js",
+    "postinstall": "node scripts/generate-firebase-config.js"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1"
   }
 }
