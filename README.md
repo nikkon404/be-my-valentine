@@ -1,3 +1,13 @@
+---
+title: "Be My Valentine"
+emoji: "💕"
+colorFrom: pink
+colorTo: red
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Valentines
 
 A small Valentine link generator: create a shareable link, send it, and see if they said yes or no.
