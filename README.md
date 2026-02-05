@@ -2,6 +2,8 @@
 
 A small Valentine link generator: create a shareable link, send it, and see if they said yes or no.
 
+**Demo:** [https://be-my-valentine-f6434.web.app/](https://be-my-valentine-f6434.web.app/)
+
 ## Screenshots
 
 **Homepage** — generate a link, check status
@@ -16,42 +18,13 @@ A small Valentine link generator: create a shareable link, send it, and see if t
 
 ![Status](screenshots/3.png)
 
-## Firebase config (required)
+## Firebase Hosting
 
-The app uses Firestore from the browser (no Cloud Functions), so it runs on the **free Spark plan**.
-
-**Option A – env vars (recommended)**  
-1. Copy `.env.example` to `.env`.  
-2. In [Firebase Console](https://console.firebase.google.com) → your project → **Project settings** → **Your apps** → copy the web app config.  
-3. Fill in `.env` with `FIREBASE_API_KEY`, `FIREBASE_PROJECT_ID`, etc.  
-4. Run `npm run build:config` to generate `public/js/firebase-config.js` from env.  
-5. `npm run deploy` runs `build:config` first.
-
-**Option B – edit the file**  
-Edit `public/js/firebase-config.js` and replace the placeholders. (The web `apiKey` is safe in client code; security is Firestore rules.)
-
-## Run locally
-
-```bash
-npm run serve
-```
-
-Or with Hosting + Functions emulators:
-
-```bash
-firebase emulators:start --only hosting,functions
-```
-
-Open the URL shown (e.g. http://localhost:5000).
-
-## Deploy (Firebase)
-
-```bash
-npm run deploy
-```
-
-Or `firebase deploy`. Requires Firebase CLI and a project linked via `.firebaserc`.
+- **Stack:** Hosting + Firestore (client-side), free Spark plan.
+- **Config:** Copy `.env.example` → `.env`, add your [Firebase web config](https://console.firebase.google.com) values. `npm run deploy` generates `firebase-config.js` from env and deploys.
+- **Local:** `npm run serve`
+- **CI:** Add repo secrets `FIREBASE_API_KEY`, `FIREBASE_PROJECT_ID`, etc. and `FIREBASE_SERVICE_ACCOUNT_BE_MY_VALENTINE_F6434` (service account JSON). Workflow runs `build:config` then deploys on push to `main`.
 
 ## Credits
 
-- **Cats from [Nuko](https://nukochannel.neocities.org)** — Nuko Channel button/link in the corner.
+Cats from [Nuko](https://nukochannel.neocities.org).
