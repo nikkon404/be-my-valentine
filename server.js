@@ -15,7 +15,8 @@ app.use(express.static(__dirname));
 
 app.use('/api', apiRoutes);
 
-app.listen(config.PORT, () => {
+const host = process.env.HOST || '0.0.0.0';
+app.listen(config.PORT, host, () => {
   ensureCsv();
-  console.log('Valentines server listening on port', config.PORT);
+  console.log('Valentines server listening on', host + ':' + config.PORT);
 });
