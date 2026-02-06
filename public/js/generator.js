@@ -32,8 +32,8 @@ export function initGenerator() {
           if (codeEl) codeEl.textContent = data.code || '';
           urlInput.value = data.url;
           resultEl.classList.remove('hidden');
-          getLinkBtn.textContent = 'Get link';
-          getLinkBtn.disabled = false;
+          getLinkBtn.textContent = 'Link generated';
+          getLinkBtn.disabled = true;
         })
         .catch((err) => {
           getLinkBtn.textContent = 'Get link';
