@@ -53,9 +53,9 @@ export function initGenerator() {
       navigator.clipboard.writeText(url).then(
         () => {
           copyBtn.textContent = 'Copied!';
-          setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+          setTimeout(() => { copyBtn.textContent = 'Copy link'; }, 2000);
         },
-        () => { copyBtn.textContent = 'Copy'; }
+        () => { copyBtn.textContent = 'Copy link'; }
       );
     });
   }
