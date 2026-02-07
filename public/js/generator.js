@@ -38,6 +38,10 @@ export function initGenerator() {
         .catch((err) => {
           getLinkBtn.textContent = 'Get link';
           getLinkBtn.disabled = false;
+          console.error('[Get link]', err);
+          if (err?.code) console.error('[Get link] code:', err.code);
+          if (err?.message) console.error('[Get link] message:', err.message);
+          if (err?.stack) console.error('[Get link] stack:', err.stack);
           const msg = err?.message || 'Could not generate link. Check Firebase config.';
           alert(msg);
         });
