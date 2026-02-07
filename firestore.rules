@@ -3,8 +3,9 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /links/{code} {
-      // Code = 7 alphanumeric chars. Create with name + status (optional createdAt/updatedAt).
+      // Code = 7 alphanumeric chars. Create with exactly name + status.
       allow create: if code.matches('^[a-z0-9]{7}$')
+        && request.resource.data.keys().hasOnly(['name', 'status'])
         && request.resource.data.name is string
         && request.resource.data.status == 'not responded';
       allow read: if true;

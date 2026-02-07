@@ -1,6 +1,6 @@
 /**
  * Firestore client for Spark plan: no Cloud Functions, direct read/write from browser.
- * Collection: links. Doc id = code. Fields: name, status, createdAt, updatedAt.
+ * Collection: links. Doc id = code. Fields: name, status.
  */
 
 const CODE_LENGTH = 7;
@@ -41,9 +41,8 @@ export function createLink(name) {
     const ref = db.collection("links").doc(code);
     return ref.get().then((snap) => {
       if (snap.exists) return tryCreate();
-      const now = firebase.firestore.FieldValue.serverTimestamp();
       return ref
-        .set({ name, status: STATUS_NOT_RESPONDED, createdAt: now, updatedAt: now })
+        .set({ name, status: STATUS_NOT_RESPONDED })
         .then(() => ({ code, url: `${baseUrl}/?code=${code}` }));
     });
   }
@@ -74,5 +73,5 @@ export function updateResponse(code, response) {
   return getDb()
     .collection("links")
     .doc(normalized)
-    .update({ status: response, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    .update({ status: response });
 }
